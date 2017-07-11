@@ -12,9 +12,18 @@ app.get('/', function(request, response) {
 
 app.post('/', function(request, response) {
   var responseString = '';
+  var requestPayload = request.body.payload;
   responseString = request.body;
 
-
+  // check if request.body is JSON object or not by using try and catch - possibly convert it to string and parse back
+  //console.log(typeof request.body);
+  //console.log(requestPayload);
+  for(var i in requestPayload)
+  {
+    var type = requestPayload[i].type;
+    var status = requestPayload[i].status;
+    console.log(" I:" + i + " Type:" + type + " Status:" + status);
+  }
 
   response.send(responseString);
 })
