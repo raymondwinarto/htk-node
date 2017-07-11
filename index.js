@@ -17,7 +17,7 @@ app.post('/', function(request, response) {
 
   // check if request.body is JSON object or not by using try and catch - possibly convert it to string and parse back
   //console.log(typeof request.body);
-  //console.log(requestPayload);
+  console.log(requestPayload);
   for(var i in requestPayload)
   {
     var type = requestPayload[i].type;
