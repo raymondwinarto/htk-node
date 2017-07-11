@@ -1,0 +1,20 @@
+{
+  "name": "hometrack-test",
+  "version": "1.0.0",
+  "description": "NodeJs API web service that filter input data and return a few fields",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "engines": {
+    "node": "4.0.0"
+  },
+  "keywords": [
+    "hometrack"
+  ],
+  "author": "Raymond Winarto",
+  "license": "ISC"
+}
