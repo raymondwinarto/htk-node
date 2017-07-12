@@ -1,23 +1,41 @@
 var express = require('express')
-var bodyParser = require('body-parser');
 var app = express()
 
 app.set('port', (process.env.PORT || 5000))
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(function(request, response, next){
+  // manually parse request body
+  var data = "";
+  request.on('data', function(chunk){ data += chunk})
+  request.on('end', function(){
+  request.rawBody = data;
+    try {
+      request.body = JSON.parse(data);
+    } catch (e) {
+      // set the request.body to empty string if request body is not JSON
+      // this check will ignore Content-Type header for this code test purpose
+      request.body = "";
+    }
+    next();
+   })
+})
 
 app.get('/', function(request, response) {
   response.send('Web service simple application, please send a POST request with the list of property data in the request payload.');
 })
 
 app.post('/', function(request, response) {
+  response.setHeader('Content-Type', 'application/json');
+
+  if (request.body === '') {
+    // return 400 Bad Request containing the following JSON data
+    response.status(400);
+    response.end('{"error": "Could not decode request: JSON parsing failed"}');
+    return;
+  }
+
   var responseObj = '';
   var requestPayload = request.body.payload;
   var responsePropertyArray = [];
-
-  // check if request.body is JSON object or not by using try and catch - possibly convert it to string and parse back
-  // console.log(typeof request.body);
-  // console.log(requestPayload);
 
   for(var i in requestPayload)
   {
@@ -35,8 +53,7 @@ app.post('/', function(request, response) {
 
   responseObj = {"payload": responsePropertyArray };
   
-  response.setHeader('Content-Type', 'application/json');
-  response.send(JSON.stringify(responseObj));
+  response.end(JSON.stringify(responseObj));
 })
 
 app.listen(app.get('port'), function() {
