@@ -37,6 +37,8 @@ app.post('/', function(request, response) {
   var requestPayload = request.body.payload;
   var responsePropertyArray = [];
 
+  // loop through the property object array and filter those with type htv 
+  // and workflow completed
   for(var i in requestPayload)
   {
     if (requestPayload[i].type == 'htv' && requestPayload[i].workflow == 'completed') {
