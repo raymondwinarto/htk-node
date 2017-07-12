@@ -30,6 +30,7 @@ app.post('/', function(request, response) {
     // return 400 Bad Request containing the following JSON data
     response.status(400);
     response.end('{"error": "Could not decode request: JSON parsing failed"}');
+    console.log("Could not decode request: JSON parsing failed");
     return;
   }
 
