@@ -40,8 +40,8 @@ app.post('/', function(request, response) {
 
   // loop through the property object array and filter those with type htv 
   // and workflow completed
-  for(var i in requestPayload)
-  {
+  for(var i in requestPayload) {
+
     if (requestPayload[i].type == 'htv' && requestPayload[i].workflow == 'completed') {
       var responsePropertyObj = {
         "concataddress": requestPayload[i].address.buildingNumber + " " + requestPayload[i].address.street + " " +
@@ -54,8 +54,7 @@ app.post('/', function(request, response) {
     }
   }
 
-  responseObj = {"payload": responsePropertyArray };
-  
+  responseObj = {"response": responsePropertyArray};
   response.end(JSON.stringify(responseObj));
 })
 
