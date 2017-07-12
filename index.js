@@ -27,7 +27,8 @@ app.post('/', function(request, response) {
   response.setHeader('Content-Type', 'application/json');
 
   if (request.body === '') {
-    // return 400 Bad Request containing the following JSON data
+    // return 400 Bad Request containing the following JSON data for failed JSON parsing
+    // this check can be further improved by validating against JSON schema (can be implemented if required)
     response.status(400);
     response.end('{"error": "Could not decode request: JSON parsing failed"}');
     console.log("Could not decode request: JSON parsing failed");
@@ -40,12 +41,15 @@ app.post('/', function(request, response) {
 
   // loop through the property object array and filter those with type htv 
   // and workflow completed
-  for(var i in requestPayload) {
+  for (var i=0; i<requestPayload.length; i++) {
 
     if (requestPayload[i].type == 'htv' && requestPayload[i].workflow == 'completed') {
       var responsePropertyObj = {
-        "concataddress": requestPayload[i].address.buildingNumber + " " + requestPayload[i].address.street + " " +
-          requestPayload[i].address.suburb + " " + requestPayload[i].address.state + " " + requestPayload[i].address.postcode,
+        "concataddress": requestPayload[i].address.buildingNumber + " " + 
+                        requestPayload[i].address.street + " " +
+                        requestPayload[i].address.suburb + " " + 
+                        requestPayload[i].address.state + " " + 
+                        requestPayload[i].address.postcode,
         "type": requestPayload[i].type,
         "workflow": requestPayload[i].workflow
       };
